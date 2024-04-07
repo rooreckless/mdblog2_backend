@@ -183,7 +183,7 @@ yarn-error.log
 # End of https://www.toptal.com/developers/gitignore/api/python,vuejs
 
 #------------
-#フロントエンドのvueディレクトリと環境変数ファイルはアップしないようにします。
-vue/
+#フロントエンドのディレクトリと環境変数ファイルはアップしないようにします。
+mdblog2_frontend_vt
 env_files/
 .vscode/
