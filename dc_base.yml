@@ -3,7 +3,7 @@ services:
   # vueサービスは開発環境でのみ利用なのでdev.ymlに記述しています。
   flask:
     build: ./flask
-    container_name: back_v_tail_flask_cnt
+    container_name: back_mdblog2_flask_cnt
     # ports句は個々のymlで記述
     # exposeを使ってみます
     expose:
@@ -15,7 +15,7 @@ services:
     # command句は個々のymlで記述
   nginx:
     build: ./nginx
-    container_name: front_v_tail_nginx_cnt
+    container_name: front_mdblog2_nginx_cnt
     #volumes句とports句は個々のymlに記載
     depends_on:
       - flask

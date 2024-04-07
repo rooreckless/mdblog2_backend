@@ -9,7 +9,7 @@ services:
     volumes:
       # vueのビルド済みファイルをバインド
       - type: bind
-        source: "./vue/front_v_tail/dist"
+        source: "./mdblog2_frontend_vt/front_v_tail/dist"
         target: "/usr/share/nginx/html"
       # 本番用のnginx設定ファイルのバインド
       - type: bind
