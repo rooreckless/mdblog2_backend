@@ -1,4 +1,4 @@
-version: "3"
+# version: "3"
 services:
   # vueサービスは開発環境でのみ利用なのでdev.ymlに記述しています。
   flask:
