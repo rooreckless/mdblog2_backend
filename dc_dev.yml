@@ -1,0 +1,40 @@
+version: "3"
+services:
+  #開発環境では、vueの開発サーバーを起動させるのでvueサービスを使用
+  vue:
+    build: ./vue
+    container_name: front_v_tail_vue_cnt
+    #直接ブラウザからアクセスしたいならportsで5173を開けてください
+    expose:
+      - 5173
+    volumes:
+      - type: bind
+        source: "./vue"
+        target: "/usr/src/app"
+      - type: volume
+        source: "vol_node_modules"
+        target: "/usr/src/app/front_v_tail/node_modules"
+    tty: true
+    depends_on:
+      - flask
+    # command句は使わない。開発サーバー起動はvueコンテナに入って手動起動してください
+  flask:
+    #開発環境用環境変数を読み込む = このコンテナ自体の環境変数となる
+    env_file: "./env_files/devenv.env"
+    #開発用のgunicorn起動コマンド
+    command: gunicorn -w 2 -b 0.0.0.0:5000 'apps.app:create_app("dev")' --reload
+  nginx:
+    #開発用のnginx設定ファイルのバインド
+    volumes:
+      - type: bind
+        source: "./nginx/dev_conf"
+        target: "/etc/nginx/conf.d"
+    ports:
+      - 8880:80
+      - 443:443
+    depends_on:
+      - vue
+# サービス外ボリュームを作成(開発環境でのデータ永続化処理と、node_modules退避用)
+volumes:
+  vol_node_modules:
+  

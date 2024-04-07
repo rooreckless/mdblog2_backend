@@ -1,0 +1,31 @@
+version: "3"
+services:
+  flask:
+    #本番環境用環境変数を読み込む = このコンテナ自体の環境変数となる
+    env_file: "./env_files/prodenv.env"
+    #開発用のgunicorn起動コマンド
+    command: gunicorn -w 2 -b 0.0.0.0:5000 'apps.app:create_app("prod")'
+  nginx:
+    volumes:
+      # vueのビルド済みファイルをバインド
+      - type: bind
+        source: "./vue/front_v_tail/dist"
+        target: "/usr/share/nginx/html"
+      # 本番用のnginx設定ファイルのバインド
+      - type: bind
+        source: "./nginx/prod_conf"
+        target: "/etc/nginx/conf.d"
+      #以下からはhttps用
+      - type: bind
+        source: "/etc/letsencrypt/live/www.roosmdblogsite.net/fullchain.pem"
+        target: "/etc/nginx/certs/server.crt"
+      - type: bind
+        source: "/etc/letsencrypt/live/www.roosmdblogsite.net/privkey.pem"
+        target: "/etc/nginx/certs/server.key"
+    ports:
+      # 80:80 は本当の本番でつかってください
+      - 8888:80
+      - 443:443
+    depends_on:
+      - flask
+# サービス外ボリュームは不要(開発環境ではnode_modules退避用があったが本番ではないから)

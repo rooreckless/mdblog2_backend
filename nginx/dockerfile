@@ -1,0 +1,14 @@
+#ベースイメージ
+FROM nginx:1.23.1
+#既にインストールのパッケージのアップデート と必要な他ソフトのインストール
+# RUN apt-get update && apt-get upgrade -y && apt-get install -y nano
+RUN apt-get update && apt-get upgrade -y
+#環境変数にタイムゾーンを設定
+ENV TZ=Asia/Tokyo
+
+# sslディレクトリの中身をまるごとコピーします。
+# COPY ssl /etc/nginx/ssl
+# COPY conf.d/ssl.conf /etc/nginx/conf.d/ssl.conf
+
+# nginxをフォアグラウンド実行するモードにします。
+# CMD ["nginx", "-g", "daemon off;"]

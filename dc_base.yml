@@ -1,0 +1,22 @@
+version: "3"
+services:
+  # vueサービスは開発環境でのみ利用なのでdev.ymlに記述しています。
+  flask:
+    build: ./flask
+    container_name: back_v_tail_flask_cnt
+    # ports句は個々のymlで記述
+    # exposeを使ってみます
+    expose:
+      - 5000
+    volumes:
+      - type: bind
+        source: "./flask"
+        target: "/usr/src/app"
+    # command句は個々のymlで記述
+  nginx:
+    build: ./nginx
+    container_name: front_v_tail_nginx_cnt
+    #volumes句とports句は個々のymlに記載
+    depends_on:
+      - flask
+    command: nginx -g "daemon off;"
